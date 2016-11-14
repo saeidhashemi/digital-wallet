@@ -213,6 +213,7 @@ int main( int argc, char *argv[] ) {
 		// Throw away first line
 		if (!batchPayments.eof()) {
 			getline(batchPayments, inputLine);
+			cout << "opening batch payments file" << endl;
 			cout << inputLine << endl;
 			line++;
 		}
@@ -239,11 +240,11 @@ int main( int argc, char *argv[] ) {
 			if ((inputPayment.time.empty()) || (inputPayment.id1==0) || (inputPayment.id2==0) || (inputPayment.amount==0.0))
 				continue;
 
-			/*cout << "adding friends " << id1 << " " << id2 << endl;
+			//cout << "adding friends " << inputPayment.id1 << " " << inputPayment.id2 << endl;
 			socialNet.addFriend(inputPayment.id1, inputPayment.id2);
 
-			cout << "line " << line << endl << "time: " << inputPayment.time << endl << "id1: " << inputPayment.id1 << endl << "id2: " << inputPayment.id2 << endl << "amount: " << inputPayment.amount << endl << "message: " << inputPayment.message << endl;
-			line++;*/
+			//cout << "line " << line << endl << "time: " << inputPayment.time << endl << "id1: " << inputPayment.id1 << endl << "id2: " << inputPayment.id2 << endl << "amount: " << inputPayment.amount << endl << "message: " << inputPayment.message << endl;
+			line++;
 		}
 		cout << "done reading at line " << line << endl;
 		// Close file stream
@@ -260,10 +261,12 @@ int main( int argc, char *argv[] ) {
 	ofstream output2(argv[4]);
 	ofstream output3(argv[5]);
 	if (streamPayments.is_open() && output1.is_open() && output2.is_open() && output3.is_open()) {
-
+		cout << "opening stream payments file" << endl;
+		line = 0;
 		// Throw away first line
 		if (!streamPayments.eof()) {
 			getline(streamPayments, inputLine);
+			line++;
 		}
 
 		// Parse comma separated fields
@@ -302,12 +305,16 @@ int main( int argc, char *argv[] ) {
 			} else {
 				output3 << "unverified" << endl;
 			}
+			line++;
+			cout << "line " << line << endl;
 		}
+		cout << "done writing at line " << line << endl;
 		// Close file stream
 		streamPayments.close();
 		output1.close();
 		output2.close();
 		output3.close();
+		cout << "closing all files" << endl;
 	} else {
 		cout << "Unable to open file " << endl;
 		return 1;
